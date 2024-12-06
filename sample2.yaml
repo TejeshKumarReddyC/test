@@ -1,14 +1,3 @@
-AWSTemplateFormatVersion:
-  "2010-09-09"
-Description: EC2 Testing CFT
-Resources:
-  TEJAEC2:
-    Type: AWS::EC2::Instance
-    Properties:
-      InstanceType: t2.micro
-      ImageId: ami-0453ec754f44f9a4a
-Outputs:
-  InstanceId:
-    Value: !Ref TEJAEC2
-  PublicIp:
-    Value: !GetAtt TEJAEC2.PublicIp
+template-file-path: sample2.yaml
+parameters: {}
+tags: {}
