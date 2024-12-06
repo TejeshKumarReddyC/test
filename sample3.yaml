@@ -1,0 +1,12 @@
+AWSTemplateFormatVersion:
+  "2010-09-09"
+Description: S3 cft practice
+Resources:
+  MyS3:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: cftt-tkr
+Outputs:
+  BucketName:
+    Value: !Ref MyS3
+
