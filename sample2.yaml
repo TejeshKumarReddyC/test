@@ -1,12 +1,16 @@
 AWSTemplateFormatVersion:
   "2010-09-09"
 Description: EC2 Testing CFT
+Parameters:
+  InstanceType:
+    Type: String
+    Default: t2.micro
 Resources:
   TEJAEC2:
     Type: AWS::EC2::Instance
     Properties:
-      InstanceType: t2.micro
-      ImageId: ami-0453ec754f44f9a4a
+      InstanceType: !Ref InstanceType
+      ImageId: ami-0e2c8caa4b6378d8c
 Outputs:
   InstanceId:
     Value: !Ref TEJAEC2
