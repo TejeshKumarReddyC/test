@@ -4,7 +4,7 @@ Description: EC2 Testing CFT
 Parameters:
   InstanceType:
     Type: String
-    Default: t2.micro
+    Default: t2.small
 Resources:
   TEJAEC2:
     Type: AWS::EC2::Instance
