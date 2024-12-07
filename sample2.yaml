@@ -1,4 +1,3 @@
-template-file-path: psmall.yaml
-parameters:
-  InstanceType: t2.micro
+template-file-path: psmall.json
+parameters: {}
 tags: {}
