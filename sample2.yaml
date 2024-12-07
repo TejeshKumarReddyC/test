@@ -4,15 +4,22 @@ Description: EC2 Testing CFT
 Parameters:
   InstanceType:
     Type: String
-    Default: t2.medium
+    Default: t2.micro
 Resources:
   TEJAEC2:
     Type: AWS::EC2::Instance
     Properties:
       InstanceType: !Ref InstanceType
       ImageId: ami-0453ec754f44f9a4a
+  TEJAS3:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: git-tkr
 Outputs:
   InstanceId:
     Value: !Ref TEJAEC2
   PublicIp:
     Value: !GetAtt TEJAEC2.PublicIp
+  BucketName:
+    Value: !Ref TEJAS3
+
