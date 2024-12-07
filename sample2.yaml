@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 AWSTemplateFormatVersion:
   "2010-09-09"
 Description: EC2 Testing CFT
@@ -16,3 +17,8 @@ Outputs:
     Value: !Ref TEJAEC2
   PublicIp:
     Value: !GetAtt TEJAEC2.PublicIp
+=======
+template-file-path: sample2.yaml
+parameters: {}
+tags: {}
+>>>>>>> 88532fc646eb76d99633b82b9ebbf6f37efee258
