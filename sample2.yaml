@@ -19,7 +19,7 @@ Outputs:
   InstanceId:
     Value: !Ref TEJAEC2
   PublicIp:
-    Value: !GetAtt TEJAEC2.PublicIp
-  BucketName:
-    Value: !Ref TEJAS3
+     Value: !GetAtt TEJAEC2.PublicIp
+      #BucketName:
+    #   Value: !Ref TEJAS3
 
