@@ -11,15 +11,15 @@ Resources:
     Properties:
       InstanceType: !Ref InstanceType
       ImageId: ami-0453ec754f44f9a4a
-        #TEJAS3:
-    #Type: AWS::S3::Bucket
-      #Properties:
-      #     BucketName: git-tkr
+  TEJAS3:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: git-tkr
 Outputs:
   InstanceId:
     Value: !Ref TEJAEC2
   PublicIp:
      Value: !GetAtt TEJAEC2.PublicIp
-      #BucketName:
-    #   Value: !Ref TEJAS3
+  BucketName:
+     Value: !Ref TEJAS3
 
