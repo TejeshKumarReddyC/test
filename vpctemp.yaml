@@ -135,7 +135,8 @@ Resources:
             ImageId: ami-0453ec754f44f9a4a
             VpcId: !Ref MyVPC
             SubnetId: !Ref PublicSubnet  
-            SecurityGroupIds: !Ref PublicSecurityGroup
+            SecurityGroupIds: 
+              - !Ref PublicSecurityGroup
             Tags:
               - Key: Name
                 Value: PublicInstance
@@ -146,7 +147,8 @@ Resources:
             ImageId: ami-0453ec754f44f9a4a
             VpcId: !Ref MyVPC
             SubnetId: !Ref PrivateSubnet
-            SecurityGroupIds: !Ref PrivateSecurityGroup
+            SecurityGroupIds: 
+              - !Ref PrivateSecurityGroup
             Tags:
               - Key: Name
                 Value: PrivateInstance
