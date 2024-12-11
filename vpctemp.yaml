@@ -1,0 +1,170 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: VPC Project
+Parameters:
+  InstanceType:
+    Type: String
+    Default: t2.micro
+    AllowedValues:
+        - t2.small
+        - t2.medium  
+Resources:
+  #VPC
+  MyVPC:
+    Type: AWS::EC2::VPC
+    Properties: 
+       CidrBlock: 10.0.0.0/16
+       EnableDnsSupport: true
+       EnableDnsHostnames: true
+       Tags:
+         - Key: Name
+           Value: Company VPC
+  #Internet Gateway
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+         - Key: Name
+           Value: CompanyIGW
+  AttachInternetGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+        VpcId: !Ref MyVPC
+        InternetGatewayId: !Ref InternetGateway
+  #Subnets
+  PublicSubnet:
+     Type: AWS::EC2::Subnet
+     Properties: 
+        VpcId: !Ref MyVPC
+        CidrBlock: 10.0.1.0/24   
+        AvailabilityZone: !Select [0, !GetAZs '']
+        Tags: 
+         - Key: Name
+           Value: PublicSubnet
+  PrivateSubnet:
+     Type: AWS::EC2::Subnet
+     Properties:
+        VpcId: !Ref MyVPC
+        CidrBlock: 10.0.2.0/24
+        AvailabilityZone: !Select [1, !GetAZs '']
+        Tags:
+          - Key: Name
+            Value: PrivateSubnet
+  #RouteTables
+  PublicRouteTable:
+      Type: AWS::EC2::RouteTable
+      Properties: 
+        VpcId: !Ref MyVPC
+        Tags:
+          - Key: Name
+            Value: PublicRouteTable
+  PublicRoute:
+       Type: AWS::EC2::Route
+       Properties: 
+         RouteTableId: !Ref PublicRouteTable
+         DestinationCidrBlock: 0.0.0.0/0
+         GatewayId: !Ref InternetGateway
+  PublicSubnetRouteTableAssociation:
+        Type: AWS::EC2::SubnetRouteTableAssociation
+        Properties: 
+          SubnetId: !Ref PublicSubnet
+          RouteTableId: !Ref PublicRouteTable  
+  #NAT Gateway
+  NATGatewayEIP:
+        Type: AWS::EC2::EIP
+        Properties:
+          Domain: vpc
+  NATGateway:
+        Type: AWS::EC2::NatGateway
+        Properties:
+           AllocationId: !GetAtt NATGatewayEIP.AllocationId
+           SubnetId: !Ref PublicSubnet
+  PrivateRouteTable:
+        Type: AWS::EC2::RouteTable
+        Properties: 
+           VpcId: !Ref MyVPC
+           Tags:
+             - Key: Name
+               Value: PrivateRouteTable
+  PrivateRoute:
+         Type: AWS::EC2::Route
+         Properties:
+           RouteTableId: !Ref PrivateRouteTable
+           DestinationCidrBlock: 0.0.0.0/0
+           NatGatewayId: !Ref NATGateway
+  PrivateSubnetRouteTableAssociation:
+         Type: AWS::EC2::SubnetRouteTableAssociation
+         Properties:
+           SubnetId: !Ref PrivateSubnet
+           RouteTableId: !Ref PrivateRouteTable
+  PublicSecurityGroup:
+         Type: AWS::EC2::SecurityGroup
+         Properties: 
+           VpcId: !Ref MyVPC
+           SecurityGroupIngress:
+             - IpProtocol: tcp
+               FromPort: 80
+               ToPort: 80
+               CidrIp: 0.0.0.0/0
+             - IpProtocol: tcp
+               FromPort: 443
+               ToPort: 443
+               CidrIp: 0.0.0.0/0
+           Tags:
+             - Key: Name
+               Value: PublicSecurityGroup
+  PrivateSecurityGroup:
+         Type: AWS::EC2::SecurityGroup
+         Properties:
+           VpcId: !Ref MyVPC
+           SecurityGroupIngress:
+             - IpProtocol: tcp
+               FromPort: 22
+               ToPort: 22
+               CidrIp: 10.0.0.0/16
+           Tags: 
+             - Key: Name
+               Value: PrivateSecurityGroup
+
+  PublicInstance:
+         Type: AWS::EC2::Instance
+         Properties:
+            InstanceType: !Ref InstanceType
+            ImageId: ami-0453ec754f44f9a4a
+            VpcId: !Ref MyVPC
+            SubnetId: !Ref PublicSubnet  
+            SecurityGroupIds: !Ref PublicSecurityGroup
+            Tags:
+              - Key: Name
+                Value: PublicInstance
+  PrivateInstance:
+          Type: AWS::EC2::Instance
+          Properties:
+            InstanceId: !Ref InstanceType
+            ImageId: ami-0453ec754f44f9a4a
+            VpcId: !Ref MyVPC
+            SubnetId: !Ref PrivateSubnet
+            SecurityGroupIds: !Ref PrivateSecurityGroup
+            Tags:
+              - Key: Name
+                Value: PrivateInstance
+Outputs:
+  PublicInstance: 
+          Value: !Ref PublicInstance
+  PrivateInstance: 
+          Value: !Ref PrivateInstance
+  VpcId: 
+          Value: !Ref MyVPC
+            
+   
+
+                
+
+
+
+                
+
+
+
+
+
+            
