@@ -132,6 +132,7 @@ Resources:
          Type: AWS::EC2::Instance
          Properties:
             InstanceType: !Ref InstanceType
+            KeyName: test1
             ImageId: ami-0453ec754f44f9a4a
             VpcId: !Ref MyVPC
             SubnetId: !Ref PublicSubnet  
@@ -144,6 +145,7 @@ Resources:
           Type: AWS::EC2::Instance
           Properties:
             InstanceId: !Ref InstanceType
+            KeyName: test1
             ImageId: ami-0453ec754f44f9a4a
             VpcId: !Ref MyVPC
             SubnetId: !Ref PrivateSubnet
