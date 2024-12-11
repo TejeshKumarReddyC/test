@@ -144,7 +144,7 @@ Resources:
   PrivateInstance:
           Type: AWS::EC2::Instance
           Properties:
-            InstanceId: !Ref InstanceType
+            InstanceType: !Ref InstanceType
             KeyName: test1
             ImageId: ami-0453ec754f44f9a4a
             VpcId: !Ref MyVPC
