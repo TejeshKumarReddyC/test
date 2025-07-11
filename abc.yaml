@@ -1,3 +1,1 @@
-template-file-path: vpctemp.yaml
-parameters: {}
-tags: {}
+template-file-path: retainresource.yaml
