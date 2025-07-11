@@ -1,0 +1,25 @@
+AWSTemplateVersion: '2010-09-09'
+Description: Testing the retention
+
+Resources:
+        MySecurityGroup:
+                Type: AWS::EC2::SecurityGroup
+                DeletionPolicy: Retain
+                Properties:
+                        GroupDescription: Allow SSH
+                        VpcId: vpc-07249af69afcb428a
+                        SecurityGroupIngress:
+                                - IpProtocol: tcp
+                                  FromPort: 22
+                                  ToPort: 22
+                                  CidrIp: 0.0.0.0/0
+         MyEC2Instance:
+                 Type: AWS::EC2::Instance
+                 Properties:
+                         InstanceType: t2.micro
+                         ImageId: ami-0e449927258d45bc4
+                         SecurityGroupIds:
+                                 - !Ref MySecurityGroup
+                         SubnetId: subnet-04af90c0f72359d85
+
+
